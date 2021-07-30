@@ -42,7 +42,7 @@ public class BeerController implements BeerControllerDocs {
         return beerService.listAll();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) throws BeerNotFoundException {
         beerService.deleteById(id);
@@ -51,5 +51,10 @@ public class BeerController implements BeerControllerDocs {
     @PatchMapping("/{id}/increment")
     public BeerDTO increment(@PathVariable Long id, @RequestBody @Valid QuantityDTO quantityDTO) throws BeerNotFoundException, BeerStockExceededException {
         return beerService.increment(id, quantityDTO.getQuantity());
+    }
+
+    @GetMapping("/restock/{quantity}")
+    public List<BeerDTO> listBeersToRestock(@PathVariable Integer quantity) {
+        return beerService.listToRestock(quantity);
     }
 }

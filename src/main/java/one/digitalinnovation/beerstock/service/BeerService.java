@@ -77,4 +77,10 @@ public class BeerService {
         }
         throw new BeerStockExceededException(id, quantityToIncrement);
     }
+
+    public List<BeerDTO> listToRestock(Integer quantity) {
+        return beerRepository.findByQuantity(quantity).stream()
+                .map(beerMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 }

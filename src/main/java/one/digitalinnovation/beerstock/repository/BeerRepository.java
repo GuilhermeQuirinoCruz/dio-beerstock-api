@@ -1,5 +1,6 @@
 package one.digitalinnovation.beerstock.repository;
 
+import one.digitalinnovation.beerstock.dto.BeerDTO;
 import one.digitalinnovation.beerstock.entity.Beer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,7 @@ public interface BeerRepository extends JpaRepository<Beer, Long> {
 
     @Query(value = "SELECT * FROM BEER WHERE BRAND = ?1", nativeQuery = true)
     List<Beer> findByBrand(String brand);
+
+    @Query(value = "SELECT * FROM BEER WHERE QUANTITY <= ?1", nativeQuery = true)
+    List<Beer> findByQuantity(Integer quantity);
 }
