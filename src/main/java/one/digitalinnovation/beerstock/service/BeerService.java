@@ -7,6 +7,7 @@ import one.digitalinnovation.beerstock.entity.Beer;
 import one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 import one.digitalinnovation.beerstock.exception.BeerNotFoundException;
 import one.digitalinnovation.beerstock.exception.BeerStockExceededException;
+import one.digitalinnovation.beerstock.exception.BrandNotFoundException;
 import one.digitalinnovation.beerstock.mapper.BeerMapper;
 import one.digitalinnovation.beerstock.repository.BeerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,7 @@ public class BeerService {
                 .collect(Collectors.toList());
     }
 
-    public String renameBrand(String brand, BrandDTO brandDTO) {
+    public String renameBrand(String brand, BrandDTO brandDTO) throws BrandNotFoundException {
         List<BeerDTO> beerWithBrand = findByBrand(brand);
 
         if(beerWithBrand.size() > 0){
@@ -98,6 +99,6 @@ public class BeerService {
             return "Brand successfully renamed from " + brand + " to " + brandDTO.getBrand();
         }
 
-        return "Brand not found with name " + brand;
+        throw new BrandNotFoundException(brand);
     }
 }

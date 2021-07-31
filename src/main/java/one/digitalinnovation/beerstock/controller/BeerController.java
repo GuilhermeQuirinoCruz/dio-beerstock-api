@@ -7,6 +7,7 @@ import one.digitalinnovation.beerstock.dto.QuantityDTO;
 import one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 import one.digitalinnovation.beerstock.exception.BeerNotFoundException;
 import one.digitalinnovation.beerstock.exception.BeerStockExceededException;
+import one.digitalinnovation.beerstock.exception.BrandNotFoundException;
 import one.digitalinnovation.beerstock.service.BeerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,7 +61,7 @@ public class BeerController implements BeerControllerDocs {
     }
 
     @PatchMapping("/rename/{brand}")
-    public String renameBrand(@PathVariable String brand, @RequestBody @Valid BrandDTO brandDTO) throws BeerNotFoundException {
+    public String renameBrand(@PathVariable String brand, @RequestBody @Valid BrandDTO brandDTO) throws BeerNotFoundException, BrandNotFoundException {
         return beerService.renameBrand(brand, brandDTO);
     }
 }
