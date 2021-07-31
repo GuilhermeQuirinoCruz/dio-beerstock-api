@@ -2,6 +2,7 @@ package one.digitalinnovation.beerstock.service;
 
 import lombok.AllArgsConstructor;
 import one.digitalinnovation.beerstock.dto.BeerDTO;
+import one.digitalinnovation.beerstock.dto.BrandDTO;
 import one.digitalinnovation.beerstock.entity.Beer;
 import one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 import one.digitalinnovation.beerstock.exception.BeerNotFoundException;
@@ -82,5 +83,21 @@ public class BeerService {
         return beerRepository.findByQuantity(quantity).stream()
                 .map(beerMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public String renameBrand(String brand, BrandDTO brandDTO) {
+        List<BeerDTO> beerWithBrand = findByBrand(brand);
+
+        if(beerWithBrand.size() > 0){
+            beerWithBrand.stream()
+                    .forEach(beer -> beer.setBrand(brandDTO.getBrand()));
+            beerWithBrand.stream()
+                    .map(beerMapper::toModel)
+                    .forEach(beerRepository::save);
+
+            return "Brand successfully renamed from " + brand + " to " + brandDTO.getBrand();
+        }
+
+        return "Brand not found with name " + brand;
     }
 }

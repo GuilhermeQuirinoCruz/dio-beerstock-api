@@ -2,6 +2,7 @@ package one.digitalinnovation.beerstock.controller;
 
 import lombok.AllArgsConstructor;
 import one.digitalinnovation.beerstock.dto.BeerDTO;
+import one.digitalinnovation.beerstock.dto.BrandDTO;
 import one.digitalinnovation.beerstock.dto.QuantityDTO;
 import one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 import one.digitalinnovation.beerstock.exception.BeerNotFoundException;
@@ -32,11 +33,6 @@ public class BeerController implements BeerControllerDocs {
         return beerService.findByName(name);
     }
 
-    @GetMapping("/brand/{brand}")
-    public List<BeerDTO> findByBrand(@PathVariable String brand) {
-        return beerService.findByBrand(brand);
-    }
-
     @GetMapping
     public List<BeerDTO> listBeers() {
         return beerService.listAll();
@@ -53,8 +49,18 @@ public class BeerController implements BeerControllerDocs {
         return beerService.increment(id, quantityDTO.getQuantity());
     }
 
+    @GetMapping("/brand/{brand}")
+    public List<BeerDTO> findByBrand(@PathVariable String brand) {
+        return beerService.findByBrand(brand);
+    }
+
     @GetMapping("/restock/{quantity}")
     public List<BeerDTO> listBeersToRestock(@PathVariable Integer quantity) {
         return beerService.listToRestock(quantity);
+    }
+
+    @PatchMapping("/rename/{brand}")
+    public String renameBrand(@PathVariable String brand, @RequestBody @Valid BrandDTO brandDTO) throws BeerNotFoundException {
+        return beerService.renameBrand(brand, brandDTO);
     }
 }
